@@ -7,19 +7,10 @@ from collections import Counter
 
 all_words = words.all_wordle_words()
 current_word = ""
-valid_words = []
+valid_words = sorted(all_words)
 invalid_letters = set()
-
-def word_check_black(all_words, invalid_letters, valid_words):
-    if invalid_letters:
-        invalid_letters = set(invalid_letters)
-        for word in all_words:
-            word_set = set(word)
-            intersection_set = word_set.intersection(invalid_letters)
-            length = len(intersection_set)
-            if length == 0:
-                valid_words.append(word)
-    return valid_words
+green_letters = set()
+yellow_letters = set()
 
 def check_black(word):
     for letter in word:
@@ -27,35 +18,29 @@ def check_black(word):
             return False
     return True
 
+def check_green(word):
+    for letter, position in green_letters:
+        if word[position] != letter:
+            return False
+    return True
 
-def word_check_green(valid_words, green_letters):
-    new_valid_words = []
-    if green_letters:
-        for word in valid_words:
-            for elem in green_letters:
-                for ch, pos in elem.items():
-                    if word[pos] == ch:
-                        new_valid_words.append(word)
-    return new_valid_words
+def check_yellow(word):
+    for letter, position in yellow_letters:
+        if word[position] != letter or letter not in word:
+            return False
+    return True
 
-def word_check_yellow(valid_words, yellow_letters):
-    new_valid_words = []
-    if yellow_letters:
-        for word in valid_words:
-            for elem in yellow_letters:
-                for ch, pos in elem.items():
-                    print(f'Word: {word}, Letter: {ch}, Position: {pos}, elem: {elem} , yellow_letters: {yellow_letters}')
-                    if word[pos] == ch:
-                        print(f'YESSSSSSSSSSS!!!!  Word: {word}, Letter: {ch}, Position: {pos}, elem: {elem} , yellow_letters: {yellow_letters}')
-                        new_valid_words.append(word)
-                        # print(new_valid_words)
-                        break
-    return new_valid_words      
+def get_valid_words():
+    new_words = []
+    for word in valid_words:
+        if check_black(word) or not check_green(word) or not check_yellow(word):
+            continue
+        new_words.append(word)
+        
+    return new_words
+
 
 def convert_color_code(word, color_code):
-    invalid_letters = set()
-    green_letters = set()
-    yellow_letters = set()
     
     counter = 0
     word = word.lower()
@@ -65,14 +50,16 @@ def convert_color_code(word, color_code):
         if code == 'g':
             green_letter =  word[counter]
             green_pos = counter
-            letters_dict = {green_letter: green_pos}
-            green_letters.add(letters_dict)
+            letters_set = (green_letter, green_pos)
+            print(letters_set)
+            print(green_letters)
+            green_letters.add(letters_set)
             
         if code == 'y':
             yellow_letter =  word[counter]
             yellow_pos = counter
-            letters_dict = {yellow_letter: yellow_pos}
-            yellow_letters.add(letters_dict)
+            letters_set = (yellow_letter, yellow_pos)
+            yellow_letters.add(letters_set)
             
         if code == 'b':
             black_letter =  word[counter]
@@ -104,12 +91,9 @@ def play():
     print(f'Yellow Letters: {yellow_letters}')
     print(f'Invalid Letters: {invalid_letters}')
     
-    valid_words = word_check_black(all_words, invalid_letters, valid_words)
-    green_valid = word_check_green(valid_words, green_letters)
-    yellow_valid = word_check_yellow(green_valid, yellow_letters)
-    print(sorted(yellow_valid))
-    candiate_words = sorted(yellow_valid)
-    # print(candiate_words)
+    valid_words = get_valid_words()
+    print(f'Valid Words: {valid_words}')
+    
 
 
 play()
