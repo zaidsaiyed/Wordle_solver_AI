@@ -33,8 +33,10 @@ def check_yellow(word):
 def get_valid_words():
     new_words = []
     for word in valid_words:
-        if check_black(word) or not check_green(word) or not check_yellow(word):
+        if not check_black(word) or check_green(word) or check_yellow(word):
             continue
+        print(f'{word} , black  = {check_black(word)}, green = {check_green(word)}, yellow = {check_yellow(word)}')
+        
         new_words.append(word)
         
     return new_words
