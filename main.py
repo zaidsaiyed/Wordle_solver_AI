@@ -87,7 +87,7 @@ def freq_prob(words):
             counter[letter] += 1
     return counter
 
-def smart_guess():
+def smart_guess(valid_words):
     untried_letters = untried_prob(valid_words)
     freq_letter = freq_prob(valid_words)
     
@@ -98,11 +98,15 @@ def smart_guess():
             untried_sum = sum([untried_letters[letter] if letter in untried_letters else 0 for letter in word])
             freq_sum = sum([freq_letter[letter] for letter in word])
             
-            score.append((untried_sum, freq_sum, word))
+            score.append((word, untried_sum, freq_sum))
+        # priority = sorted(score, key=lambda x: (x[0], x[1], x[2]),reverse=True)
+        # print(priority)
         priority = sorted(score, key = lambda x: (-x[1], -x[2], x[0]))
         our_guess = priority[0][0]
     else:
-        our_guess = sorted(valid_words, key = lambda x: (-untried_letters[x], x))[0]
+        our_guess = sorted(valid_words, key = lambda x: (-len(set(x)), -sum(freq_letter[c] for c in x), x))[0]
+    
+    return our_guess
         
 def load_words():
     return words.all_wordle_words()
@@ -113,32 +117,33 @@ def play():
     print()
     valid_words = get_valid_words()
     
-    if valid_words == []:
-        print("No valid words found")
-        return
     
-    elif len(valid_words) == 1:
-        print(f'Word Found: {valid_words[0]}')
-        return
+    while True:
+        if valid_words == []:
+            print("No valid words found")
+            return
+        
+        elif len(valid_words) == 1:
+            print(f'Word Found: {valid_words[0]}')
+            return
+        
+        else:
+            guess = smart_guess(valid_words)
+                
+        if guess:
+            current_word = guess
+            print(f'Try: {current_word}')
+            print()
+            color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
+            print()
+            game_init = False
+            green_letters, yellow_letters, invalid_letters = convert_color_code(current_word, color_code)
+            
+            print(f'Green Letters: {green_letters}')
+            print(f'Yellow Letters: {yellow_letters}')
+            print(f'Invalid Letters: {invalid_letters}')
+            
+            print(f'Valid Words: {valid_words}')
     
-    else:
-        smart_guess()
-    
-    if game_init == True:
-        current_word = 'alert'
-    print(f'Try: {current_word}')
-    print()
-    color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
-    print()
-    game_init = False
-    green_letters, yellow_letters, invalid_letters = convert_color_code(current_word, color_code)
-    
-    print(f'Green Letters: {green_letters}')
-    print(f'Yellow Letters: {yellow_letters}')
-    print(f'Invalid Letters: {invalid_letters}')
-    
-    print(f'Valid Words: {valid_words}')
-    
-
 
 play()
