@@ -11,12 +11,13 @@ valid_words = sorted(all_words)
 invalid_letters = set()
 green_letters = set()
 yellow_letters = set()
+untried_letters_list = [chr(ord('a') + i) for i in range(26)]
 
 def check_black(word):
     for letter in word:
         if letter in invalid_letters:
-            return False
-    return True
+            return True
+    return False
 
 def check_green(word):
     for letter, position in green_letters:
@@ -33,7 +34,7 @@ def check_yellow(word):
 def get_valid_words():
     new_words = []
     for word in valid_words:
-        if not check_black(word) or check_green(word) or check_yellow(word):
+        if check_black(word) or not check_green(word) or not check_yellow(word):
             continue
         print(f'{word} , black  = {check_black(word)}, green = {check_green(word)}, yellow = {check_yellow(word)}')
         
@@ -70,7 +71,38 @@ def convert_color_code(word, color_code):
         counter += 1
     
     return green_letters, yellow_letters, invalid_letters
+
+def untried_prob(words):
+    counter = Counter()
+    for word in words:
+        for letter in word:
+            if letter in untried_letters_list:
+                counter[letter] += 1
+    return counter
+
+def freq_prob(words):
+    counter = Counter()
+    for word in words:
+        for letter in word:
+            counter[letter] += 1
+    return counter
+
+def smart_guess():
+    untried_letters = untried_prob(valid_words)
+    freq_letter = freq_prob(valid_words)
     
+    if len(untried_letters) > 1:
+        score = []
+        for word in all_words:
+            word = set(word)
+            untried_sum = sum([untried_letters[letter] if letter in untried_letters else 0 for letter in word])
+            freq_sum = sum([freq_letter[letter] for letter in word])
+            
+            score.append((untried_sum, freq_sum, word))
+        priority = sorted(score, key = lambda x: (-x[1], -x[2], x[0]))
+        our_guess = priority[0][0]
+    else:
+        our_guess = sorted(valid_words, key = lambda x: (-untried_letters[x], x))[0]
         
 def load_words():
     return words.all_wordle_words()
@@ -79,9 +111,21 @@ def play():
     
     print("Welcome to Wordle Solver AI!")
     print()
+    valid_words = get_valid_words()
+    
+    if valid_words == []:
+        print("No valid words found")
+        return
+    
+    elif len(valid_words) == 1:
+        print(f'Word Found: {valid_words[0]}')
+        return
+    
+    else:
+        smart_guess()
+    
     if game_init == True:
         current_word = 'alert'
-        
     print(f'Try: {current_word}')
     print()
     color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
@@ -93,7 +137,6 @@ def play():
     print(f'Yellow Letters: {yellow_letters}')
     print(f'Invalid Letters: {invalid_letters}')
     
-    valid_words = get_valid_words()
     print(f'Valid Words: {valid_words}')
     
 
