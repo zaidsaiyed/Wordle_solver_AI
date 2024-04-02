@@ -93,16 +93,19 @@ def smart_guess(valid_words):
     
     if len(untried_letters) > 1:
         score = []
-        for word in all_words:
-            word = set(word)
-            untried_sum = sum([untried_letters[letter] if letter in untried_letters else 0 for letter in word])
-            freq_sum = sum([freq_letter[letter] for letter in word])
+        set_of_all_words = set(all_words)
+        for word in set_of_all_words:
+            w_set = set(word)
+            untried_sum = sum([untried_letters[letter] if letter in untried_letters else 0 for letter in w_set])
+            freq_sum = sum([freq_letter[letter] for letter in w_set])
             
             score.append((word, untried_sum, freq_sum))
         # priority = sorted(score, key=lambda x: (x[0], x[1], x[2]),reverse=True)
-        # print(priority)
+        # print(score)
         priority = sorted(score, key = lambda x: (-x[1], -x[2], x[0]))
+        # print(priority)
         our_guess = priority[0][0]
+        
     else:
         our_guess = sorted(valid_words, key = lambda x: (-len(set(x)), -sum(freq_letter[c] for c in x), x))[0]
     
