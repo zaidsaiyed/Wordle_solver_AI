@@ -34,12 +34,8 @@ def check_yellow(word):
 def get_valid_words(valid_words):
     new_words = []
     for word in valid_words:
-        # print(f"black = {check_black(word)}, green = {check_green(word)}, yellow = {check_yellow(word)}")
         if check_black(word) or not check_green(word) or not check_yellow(word):
-            print(f'Invalid Word: {word}')
-            continue
-        print(f'{word} , black  = {check_black(word)}, green = {check_green(word)}, yellow = {check_yellow(word)}')
-        
+            continue        
         new_words.append(word)
         
     return new_words
@@ -56,8 +52,6 @@ def convert_color_code(word, color_code):
             green_letter =  word[counter]
             green_pos = counter
             letters_set = (green_letter, green_pos)
-            print(letters_set)
-            print(green_letters)
             green_letters.add(letters_set)
             
         if code == 'y':
@@ -145,6 +139,7 @@ def play():
             
             color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
             print()
+            
             if color_code == 'exit':
                 print("Exiting...")
                 return
@@ -152,22 +147,21 @@ def play():
             if len(color_code) != 5:
                 print("Invalid color code, must be 5 characters long")
                 color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
+                
             if not re.match(r'^[gyb]{5}$', color_code):
                 print("Invalid color code, must be g, y or b only")
                 color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
+                
             if color_code == 'ggggg':
-                print(f'Word Found: {current_word}')
-                print("We Won !!")
+                print("*"*21)
+                print(f'* Word Found: {current_word} *')
+                print("*      We Won !!    *")
+                print("*"*21)
                 return
             game_init = False
             green_letters, yellow_letters, invalid_letters = convert_color_code(current_word, color_code)
             
-            print(f'Green Letters: {green_letters}')
-            print(f'Yellow Letters: {yellow_letters}')
-            print(f'Invalid Letters: {invalid_letters}')
-            
             valid_words = get_valid_words(valid_words)
-            print(f'Valid Words: {valid_words}')
             
     
 
