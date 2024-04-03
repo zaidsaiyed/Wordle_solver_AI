@@ -2,7 +2,7 @@
 This Program is a wordle solver AI that uses AI to solve the wordle game.
 '''
 
-import words
+import words, re
 from collections import Counter
 
 all_words = words.all_wordle_words()
@@ -27,14 +27,16 @@ def check_green(word):
 
 def check_yellow(word):
     for letter, position in yellow_letters:
-        if word[position] != letter or letter not in word:
+        if word[position] == letter or letter not in word:
             return False
     return True
 
-def get_valid_words():
+def get_valid_words(valid_words):
     new_words = []
     for word in valid_words:
+        # print(f"black = {check_black(word)}, green = {check_green(word)}, yellow = {check_yellow(word)}")
         if check_black(word) or not check_green(word) or not check_yellow(word):
+            print(f'Invalid Word: {word}')
             continue
         print(f'{word} , black  = {check_black(word)}, green = {check_green(word)}, yellow = {check_yellow(word)}')
         
@@ -118,7 +120,7 @@ def play():
     
     print("Welcome to Wordle Solver AI!")
     print()
-    valid_words = get_valid_words()
+    valid_words = get_valid_words(valid_words=all_words)
     
     
     while True:
@@ -137,8 +139,26 @@ def play():
             current_word = guess
             print(f'Try: {current_word}')
             print()
+            for letter in current_word:
+                if letter in untried_letters_list:
+                    untried_letters_list.remove(letter)
+            
             color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
             print()
+            if color_code == 'exit':
+                print("Exiting...")
+                return
+            
+            if len(color_code) != 5:
+                print("Invalid color code, must be 5 characters long")
+                color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
+            if not re.match(r'^[gyb]{5}$', color_code):
+                print("Invalid color code, must be g, y or b only")
+                color_code = input("Enter the color codes eg. g for green, y for yellow, b for black: ")
+            if color_code == 'ggggg':
+                print(f'Word Found: {current_word}')
+                print("We Won !!")
+                return
             game_init = False
             green_letters, yellow_letters, invalid_letters = convert_color_code(current_word, color_code)
             
@@ -146,7 +166,9 @@ def play():
             print(f'Yellow Letters: {yellow_letters}')
             print(f'Invalid Letters: {invalid_letters}')
             
+            valid_words = get_valid_words(valid_words)
             print(f'Valid Words: {valid_words}')
+            
     
 
 play()
