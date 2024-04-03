@@ -123,7 +123,10 @@ def play():
             return
         
         elif len(valid_words) == 1:
-            print(f'Word Found: {valid_words[0]}')
+            print("*"*21)
+            print(f'* Word Found: {valid_words[0]} *')
+            print("*      We Won !!    *")
+            print("*"*21)
             return
         
         else:
