@@ -110,8 +110,8 @@ def smart_guess(valid_words):
 def load_words():
     return words.all_wordle_words()
 def play():
-    game_init = True
     
+    print()
     print("Welcome to Wordle Solver AI!")
     print()
     valid_words = get_valid_words(valid_words=all_words)
@@ -161,7 +161,6 @@ def play():
                 print("*      We Won !!    *")
                 print("*"*21)
                 return
-            game_init = False
             green_letters, yellow_letters, invalid_letters = convert_color_code(current_word, color_code)
             
             valid_words = get_valid_words(valid_words)
