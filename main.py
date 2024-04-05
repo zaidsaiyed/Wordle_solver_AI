@@ -134,8 +134,7 @@ def play():
                 
         if guess:
             current_word = guess
-            print(f'Try: {current_word}')
-            print()
+            print(f'Try: {current_word}\n')
             for letter in current_word:
                 if letter in untried_letters_list:
                     untried_letters_list.remove(letter)
