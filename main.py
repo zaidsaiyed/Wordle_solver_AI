@@ -1,5 +1,6 @@
 '''
 This Program is a wordle solver AI that uses AI to solve the wordle game.
+Created by: Zaid Saiyed
 '''
 
 import words, re
@@ -111,9 +112,8 @@ def load_words():
     return words.all_wordle_words()
 def play():
     
-    print()
-    print("Welcome to Wordle Solver AI!")
-    print()
+    print("\nWelcome to Wordle Solver AI!\n")
+    
     valid_words = get_valid_words(valid_words=all_words)
     
     
@@ -166,5 +166,5 @@ def play():
             valid_words = get_valid_words(valid_words)
             
     
-
+# Let's play the game
 play()
