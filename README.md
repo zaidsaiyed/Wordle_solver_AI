@@ -28,7 +28,7 @@ To get started with Wordle Solver AI, follow these steps:
 ## Usage
 To use the solver, run the following command from the terminal:
 ```bash
-python wordle_solver.py
+python main.py
 ```
 Follow the on-screen prompts to input your current game state, and the solver will provide the best next guess.
 
@@ -41,10 +41,8 @@ Contributions are what make the open source community such an amazing place to l
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## License
-Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
-Zaid Saiyed - [@your_twitter](https://twitter.com/your_twitter)
+Zaid Saiyed - [Email-ID](admin@zaidsaiyed.com)
 
 Project Link: [https://github.com/zaidsaiyed/Wordle_solver_AI](https://github.com/zaidsaiyed/Wordle_solver_AI)
