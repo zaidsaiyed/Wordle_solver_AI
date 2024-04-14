@@ -43,6 +43,6 @@ Contributions are what make the open source community such an amazing place to l
 
 
 ## Contact
-Zaid Saiyed - [Email-ID](admin@zaidsaiyed.com)
+Zaid Saiyed - [admin@zaidsaiyed.com](mailto:admin@zaidsaiyed.com)
 
 Project Link: [https://github.com/zaidsaiyed/Wordle_solver_AI](https://github.com/zaidsaiyed/Wordle_solver_AI)
