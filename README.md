@@ -20,6 +20,7 @@ To get started with Wordle Solver AI, follow these steps:
    ```
 
 2. **Install Python**
+
    Make sure you have Python 3.x installed, and then run:
 
 ## Usage
