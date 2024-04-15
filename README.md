@@ -19,11 +19,8 @@ To get started with Wordle Solver AI, follow these steps:
    cd Wordle_solver_AI
    ```
 
-2. **Install Dependencies**
+2. **Install Python**
    Make sure you have Python 3.x installed, and then run:
-   ```bash
-   pip install -r requirements.txt
-   ```
 
 ## Usage
 To use the solver, run the following command from the terminal:
