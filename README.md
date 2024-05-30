@@ -1,4 +1,3 @@
-
 # Wordle Solver AI
 
 ## Overview
